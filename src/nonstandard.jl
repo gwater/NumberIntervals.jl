@@ -1,12 +1,22 @@
 
-import Base: <, iszero, ==, <=, >=, sign, signbit, isinteger
-export <, iszero, ==, <=, >=, sign, signbit, isinteger
+import Base: <, iszero, ==, <=, >=, sign, signbit, isinteger, isfinite
+export <, iszero, ==, <=, >=, sign, signbit, isinteger, isfinite
 
 function isinteger(a::NumberInterval)
     if !issingleton(a)
         throw(IndeterminateException())
     end
     return isinteger(a.lo)
+end
+
+function isfinite(a::NumberInterval)
+    # FIXME: express condition as a set operation
+    if isfinite(a.lo) && isfinite(a.hi)
+        return true
+    end
+    # NOTE unsure if the opposite case can be expressed at all
+    # since (Inf, Inf) could have infinite width between the infinities
+    throw(IndeterminateException())
 end
 
 for (numberf, setf) in ((:<, :strictprecedes), (:<=, :precedes))

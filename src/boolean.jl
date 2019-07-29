@@ -1,10 +1,11 @@
 
-import IntervalArithmetic: (⊆), (≺), contains_zero, isempty, isnan, precedes
+import IntervalArithmetic: (⊆), (≺), contains_zero, isempty, isnan,
+    precedes, ⊂, isinterior
 
-export (⊆), (≺), contains_zero, isempty, isnan, precedes
+export (⊆), (≺), contains_zero, isempty, isnan, precedes, ⊂, isinterior
 
 #NOTE missing: interior, disjoint
-for f in (:(⊆), :(≺), :precedes)
+for f in (:(⊆), :(≺), :precedes, :⊂, :isinterior)
     @eval $f(a::NumberInterval, b::NumberInterval) = $f(Interval(a), Interval(b))
 end
 

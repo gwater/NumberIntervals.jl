@@ -42,3 +42,10 @@ end
     @test !isinteger(NumberInterval(4.5))
     @test_throws IndeterminateException isinteger(c)
 end
+@testset "isfinite" begin
+    @test isfinite(a)
+    @test isfinite(b)
+    @test isfinite(c)
+    @test isfinite(z)
+    @test_throws IndeterminateException isfinite(NumberInterval(0., Inf))
+end
