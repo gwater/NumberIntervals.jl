@@ -1,12 +1,16 @@
-import IntervalArithmetic: (⊆), (≺), contains_zero
+import IntervalArithmetic: (⊆), (≺), contains_zero, isempty
 
-export (⊆), (≺), contains_zero
+export (⊆), (≺), contains_zero, isempty
 
 #NOTE missing: interior, disjoint
 for f in (:(⊆), :(≺))
     @eval $f(a::NumberInterval, b::NumberInterval) = $f(Interval(a), Interval(b))
 end
 
-for f in (:contains_zero, )
+for f in (:contains_zero, :isempty)
     @eval $f(a::NumberInterval) = $f(Interval(a))
 end
+
+# these fit better in IntervalArithmetic so we don't export them here
+issingleton(a::NumberInterval) = iszero(radius(a))
+disjoint(a, b) = isempty(a ∩ b)

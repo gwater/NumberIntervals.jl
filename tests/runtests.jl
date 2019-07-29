@@ -13,6 +13,10 @@ z = zero(NumberInterval)
     @test_throws IndeterminateException c > b
     @test !(c < a)
     @test !(a > c)
+    @test z == z
+    @test z != c
+    @test_throws IndeterminateException a == b
+    @test_throws IndeterminateException b != c
 end
 @testset "testing for zero" begin
     @test !iszero(c)

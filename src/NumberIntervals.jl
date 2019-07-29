@@ -6,8 +6,9 @@ using IntervalArithmetic
 include("types.jl")
 
 # import set-like (IEEE conform) behaviors from IntervalArithmetic
-include("boolean.jl")
+include("set_operations.jl")
 include("numeric.jl")
+include("boolean.jl")
 include("basic.jl")
 
 # define strict number-like arithmetic

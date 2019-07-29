@@ -1,5 +1,5 @@
-import Base: <, iszero
-export <, iszero
+import Base: <, iszero, ==
+export <, iszero, ==
 
 function <(a::NumberInterval, b::NumberInterval)
     if a ≺ b
@@ -15,6 +15,15 @@ function iszero(a::NumberInterval)
         return false
     end
     if a ⊆ zero(NumberInterval)
+        return true
+    end
+    throw(IndeterminateException())
+end
+
+function ==(a::NumberInterval, b::NumberInterval)
+    if disjoint(a, b)
+        return false
+    elseif issingleton(a) && issingleton(b) && a ⊆ b
         return true
     end
     throw(IndeterminateException())

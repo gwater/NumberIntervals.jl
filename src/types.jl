@@ -13,6 +13,14 @@ is indeterminate.
 """
 struct IndeterminateException <: Exception end
 
+function _is_valid_interval(lo, hi)
+    if hi >= lo
+        return true
+    elseif hi == -∞ && lo == ∞
+        return true # empty interval
+    end
+    return false
+end
 
 """
     NumberInterval(lo, hi)
@@ -24,7 +32,8 @@ operations cannot be rigorously determined.
 struct NumberInterval{T <: Number} <: Number
     lo::T
     hi::T
-    NumberInterval(lo, hi) = hi >= lo ? new{typeof(lo)}(lo, hi) : error("invalid interval ($lo , $hi)")
+    NumberInterval(lo, hi) = _is_valid_interval(lo, hi) ?
+        new{typeof(lo)}(lo, hi) : error("invalid interval ($lo , $hi)")
 end
 
 # for now only treat Reals; restriction from IntervalArithmetic
