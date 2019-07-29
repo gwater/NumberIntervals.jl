@@ -43,7 +43,7 @@ function iszero(a::NumberInterval)
 end
 
 function ==(a::NumberInterval, b::NumberInterval)
-    if disjoint(a, b)
+    if isdisjoint(a, b)
         return false
     elseif issingleton(a) && issingleton(b) && a ⊆ b
         return true
