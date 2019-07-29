@@ -1,6 +1,6 @@
 
-import Base: <, iszero, ==, <=
-export <, iszero, ==, <=
+import Base: <, iszero, ==, <=, >=, sign, signbit
+export <, iszero, ==, <=, >=, sign, signbit
 
 for (numberf, setf) in ((:<, :strictprecedes), (:<=, :precedes))
     @eval function $numberf(a::NumberInterval, b::NumberInterval)
@@ -13,11 +13,13 @@ for (numberf, setf) in ((:<, :strictprecedes), (:<=, :precedes))
     end
 end
 
+>=(a::NumberInterval, b::NumberInterval) = b <= a
+
 function iszero(a::NumberInterval)
     if !contains_zero(a)
         return false
     end
-    if a ⊆ zero(NumberInterval)
+    if a ⊆ zero(typeof(a))
         return true
     end
     throw(IndeterminateException())
@@ -28,6 +30,28 @@ function ==(a::NumberInterval, b::NumberInterval)
         return false
     elseif issingleton(a) && issingleton(b) && a ⊆ b
         return true
+    end
+    throw(IndeterminateException())
+end
+
+function sign(a::NumberInterval)
+    z = zero(typeof(a))
+    if strictprecedes(a, z)
+        return -1
+    elseif strictprecedes(z, a)
+        return +1
+    elseif precedes(z, a) && precedes(a, z)
+        return  0
+    end
+    throw(IndeterminateException())
+end
+
+function signbit(a::NumberInterval)
+    z = zero(typeof(a))
+    if strictprecedes(a, z)
+        return true
+    elseif precedes(z, a)
+        return false
     end
     throw(IndeterminateException())
 end

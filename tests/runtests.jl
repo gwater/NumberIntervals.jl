@@ -26,3 +26,13 @@ end
     @test_throws IndeterminateException iszero(a)
     @test_throws IndeterminateException iszero(b)
 end
+@testset "test sign" begin
+    @test signbit(c) == false
+    @test signbit(-a) == false
+    @test signbit(-c) == true
+    @test_throws IndeterminateException signbit(a)
+    @test sign(c) == 1
+    @test sign(z) == 0
+    @test sign(-c) == -1
+    @test_throws IndeterminateException sign(b)
+end
