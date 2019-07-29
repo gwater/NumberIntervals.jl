@@ -4,7 +4,7 @@ using NumberIntervals
 a = NumberInterval(-1, 0)
 b = NumberInterval(-0.5, 0.5)
 c = NumberInterval(0.5, 2)
-z = NumberInterval(-0, 0)
+z = zero(NumberInterval)
 
 @testset "number comparison" begin
     @test a < c

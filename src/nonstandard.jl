@@ -14,7 +14,7 @@ function iszero(a::NumberInterval)
     if !contains_zero(a)
         return false
     end
-    if a ⊆ zero(Interval)
+    if a ⊆ zero(NumberInterval)
         return true
     end
     throw(IndeterminateException())
