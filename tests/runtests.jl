@@ -36,3 +36,9 @@ end
     @test sign(-c) == -1
     @test_throws IndeterminateException sign(b)
 end
+@testset "isinteger" begin
+    @test isinteger(z)
+    @test isinteger(NumberInterval(4))
+    @test !isinteger(NumberInterval(4.5))
+    @test_throws IndeterminateException isinteger(c)
+end

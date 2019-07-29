@@ -1,6 +1,13 @@
 
-import Base: <, iszero, ==, <=, >=, sign, signbit
-export <, iszero, ==, <=, >=, sign, signbit
+import Base: <, iszero, ==, <=, >=, sign, signbit, isinteger
+export <, iszero, ==, <=, >=, sign, signbit, isinteger
+
+function isinteger(a::NumberInterval)
+    if !issingleton(a)
+        throw(IndeterminateException())
+    end
+    return isinteger(a.lo)
+end
 
 for (numberf, setf) in ((:<, :strictprecedes), (:<=, :precedes))
     @eval function $numberf(a::NumberInterval, b::NumberInterval)
@@ -40,7 +47,7 @@ function sign(a::NumberInterval)
         return -1
     elseif strictprecedes(z, a)
         return +1
-    elseif precedes(z, a) && precedes(a, z)
+    elseif a ⊆ z
         return  0
     end
     throw(IndeterminateException())
