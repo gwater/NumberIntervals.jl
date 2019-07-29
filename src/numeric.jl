@@ -1,8 +1,7 @@
 
-import IntervalArithmetic: radius, mid
-export radius, mid
+import IntervalArithmetic: radius, mid, mag, mig, sup, inf
+export radius, mid, mag, mig, sup, inf
 
-# missing are: inf/sup, wid, mag/mig
-for f in (:radius, :mid)
+for f in (:radius, :mid, :mag, :mig, :sup, :inf)
     @eval $f(a::NumberInterval) = $f(Interval(a))
 end
