@@ -27,6 +27,10 @@ struct NumberInterval{T <: Number} <: Number
     NumberInterval(lo, hi) = hi >= lo ? new{typeof(lo)}(lo, hi) : error("invalid interval ($lo , $hi)")
 end
 
+# for now only treat Reals; restriction from IntervalArithmetic
+NumberInterval(a::T, b::T) where T <: Union{Integer, Irrational} =
+    NumberInterval(float(a), float(b))
+
 NumberInterval(a::Interval) = NumberInterval(a.lo, a.hi)
 (::Type{NumberInterval{T}})(a::NumberInterval{T}) where T = a
 
@@ -40,4 +44,6 @@ real(a::NumberInterval{T}) where {T <: Real} = a
 _promote_interval_type(::Type{Interval{T}}) where T = NumberInterval{T}
 _promote_interval_type(a::Type) = a
 
-promote_rule(::Type{NumberInterval{T}}, b::Type) where T = _promote_interval_type(promote_rule(Interval{T}, b))
+# promote everything like Interval, except promote Interval to NumberInterval
+promote_rule(::Type{NumberInterval{T}}, b::Type) where T =
+    _promote_interval_type(promote_rule(Interval{T}, b))

@@ -11,11 +11,10 @@ function <(a::NumberInterval, b::NumberInterval)
 end
 
 function iszero(a::NumberInterval)
-    aa = Interval(a)
-    if !contains_zero(aa)
+    if !contains_zero(a)
         return false
     end
-    if aa ⊆ zero(Interval)
+    if a ⊆ zero(Interval)
         return true
     end
     throw(IndeterminateException())
