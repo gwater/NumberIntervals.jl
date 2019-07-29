@@ -29,7 +29,7 @@ Interval which behaves like a number under standard arithmetic operations and
 comparisons and raises an `IndeterminateException` when the results of these
 operations cannot be rigorously determined.
 """
-struct NumberInterval{T <: Number} <: Number
+struct NumberInterval{T <: Real} <: Real
     lo::T
     hi::T
     NumberInterval(lo, hi) = _is_valid_interval(lo, hi) ?
@@ -37,7 +37,7 @@ struct NumberInterval{T <: Number} <: Number
 end
 
 # for now only treat Reals; restriction from IntervalArithmetic
-NumberInterval(a::T, b::T) where T <: Union{Integer, Irrational} =
+NumberInterval(a::T, b::T) where T <: Union{Integer, Rational, Irrational} =
     NumberInterval(float(a), float(b))
 
 NumberInterval(a::Interval) = NumberInterval(a.lo, a.hi)
@@ -47,6 +47,8 @@ Interval(a::NumberInterval) = Interval(a.lo, a.hi)
 
 NumberInterval(a) = NumberInterval(Interval(a))
 NumberInterval{T}(a) where T = NumberInterval(Interval{T}(a))
+NumberInterval{S}(a::T) where {S, T <: Union{Integer, Rational, Irrational}} =
+    NumberInterval(Interval{S}(a))
 
 real(a::NumberInterval{T}) where {T <: Real} = a
 

@@ -1,13 +1,16 @@
-import Base: <, iszero, ==
-export <, iszero, ==
 
-function <(a::NumberInterval, b::NumberInterval)
-    if a ≺ b
-        return true
-    elseif b ≺ a
-        return false
+import Base: <, iszero, ==, <=
+export <, iszero, ==, <=
+
+for (numberf, setf) in ((:<, :strictprecedes), (:<=, :precedes))
+    @eval function $numberf(a::NumberInterval, b::NumberInterval)
+        if $setf(a, b)
+            return true
+        elseif $setf(b, a)
+            return false
+        end
+        throw(IndeterminateException())
     end
-    throw(IndeterminateException())
 end
 
 function iszero(a::NumberInterval)

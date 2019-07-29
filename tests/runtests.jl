@@ -1,3 +1,4 @@
+
 using Test
 using NumberIntervals
 
@@ -17,6 +18,7 @@ z = zero(NumberInterval)
     @test z != c
     @test_throws IndeterminateException a == b
     @test_throws IndeterminateException b != c
+    @test b <= c
 end
 @testset "testing for zero" begin
     @test !iszero(c)
