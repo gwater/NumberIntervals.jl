@@ -1,3 +1,4 @@
+
 # NumberIntervals.jl
 
 A package for strict intervals-as-numbers.
@@ -34,3 +35,5 @@ false
 julia> iszero(NumberInterval(-0, +0))
 true
 ```
+
+Check our [example](examples/DifferentialEquationsExample.ipynb) demonstrating how `NumberInterval`s can act as drop-in replacements for numbers without sacrificing numerical validatity.
