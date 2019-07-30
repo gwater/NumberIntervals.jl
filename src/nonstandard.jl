@@ -10,12 +10,10 @@ function isinteger(a::NumberInterval)
 end
 
 function isfinite(a::NumberInterval)
-    # FIXME: express condition as a set operation
-    if isfinite(a.lo) && isfinite(a.hi)
+    # per IEEE standard, intervals cannot contain infinities
+    if !isempty(a) && !isnan(a)
         return true
     end
-    # NOTE unsure if the opposite case can be expressed at all
-    # since (Inf, Inf) could have infinite width between the infinities
     throw(IndeterminateException())
 end
 
