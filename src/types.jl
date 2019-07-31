@@ -14,7 +14,9 @@ is indeterminate.
 struct IndeterminateException <: Exception end
 
 function _is_valid_interval(lo, hi)
-    if hi >= lo
+    if isinf(lo) && lo == hi
+        return false # intervals cannot represent infinities
+    elseif hi >= lo
         return true
     elseif hi == -∞ && lo == ∞
         return true # empty interval
