@@ -3,10 +3,13 @@ import Base: <, iszero, ==, <=, >=, sign, signbit, isinteger, isfinite
 export <, iszero, ==, <=, >=, sign, signbit, isinteger, isfinite
 
 function isinteger(a::NumberInterval)
-    if !issingleton(a)
-        throw(IndeterminateException())
+    if floor(a) ≺ a ≺ ceil(a)
+        return false
+    elseif issingleton(a)
+        #NOTE given the previous result, singletons must contain single integers
+        return true
     end
-    return isinteger(a.lo)
+    throw(IndeterminateException())
 end
 
 function isfinite(a::NumberInterval)

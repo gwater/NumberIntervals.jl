@@ -2,10 +2,12 @@
 using Test
 using NumberIntervals
 
-a = NumberInterval(-1, 0)
-b = NumberInterval(-0.5, 0.5)
-c = NumberInterval(0.5, 2)
-z = zero(NumberInterval)
+const a = NumberInterval(-1, 0)
+const b = NumberInterval(-0.5, 0.5)
+const c = NumberInterval(0.5, 2)
+const d = NumberInterval(0.25, 0.8)
+const z = zero(NumberInterval)
+const e = NumberInterval(Inf, -Inf)
 
 @testset "number comparison" begin
     @test a < c
@@ -41,11 +43,13 @@ end
     @test isinteger(NumberInterval(4))
     @test !isinteger(NumberInterval(4.5))
     @test_throws IndeterminateException isinteger(c)
+    @test !isinteger(d)
 end
 @testset "isfinite" begin
     @test isfinite(a)
     @test isfinite(b)
     @test isfinite(c)
     @test isfinite(z)
-    @test_throws IndeterminateException isfinite(NumberInterval(0., Inf))
+    @test isfinite(NumberInterval(0., Inf))
+    @test_throws IndeterminateException isfinite(e)
 end
