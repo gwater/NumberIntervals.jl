@@ -3,6 +3,7 @@
 A package for strict intervals-as-numbers.
 
 [![Build Status](https://travis-ci.org/gwater/NumberIntervals.jl.svg?branch=master)](https://travis-ci.org/gwater/NumberIntervals.jl)
+[![codecov](https://codecov.io/gh/gwater/NumberIntervals.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/gwater/NumberIntervals.jl)
 
 # Description
 
