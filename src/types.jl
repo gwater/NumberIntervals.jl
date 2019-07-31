@@ -19,7 +19,9 @@ function _is_valid_interval(lo, hi)
     elseif hi >= lo
         return true
     elseif hi == -∞ && lo == ∞
-        return true # empty interval
+        return true # allow empty interval
+    elseif isnan(hi) && isnan(lo)
+        return true # allow NaN interval
     end
     return false
 end
@@ -31,7 +33,7 @@ Interval which behaves like a number under standard arithmetic operations and
 comparisons and raises an `IndeterminateException` when the results of these
 operations cannot be rigorously determined.
 """
-struct NumberInterval{T <: Real} <: Real
+struct NumberInterval{T <: AbstractFloat} <: AbstractFloat
     lo::T
     hi::T
     NumberInterval(lo, hi) = _is_valid_interval(lo, hi) ?
