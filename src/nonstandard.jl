@@ -9,7 +9,7 @@ function isinteger(a::NumberInterval)
         #NOTE given the previous result, singletons must contain single integers
         return true
     end
-    throw(IndeterminateException())
+    throw(IndeterminateException(a))
 end
 
 function isfinite(a::NumberInterval)
@@ -17,7 +17,7 @@ function isfinite(a::NumberInterval)
     if !isempty(a) && !isnan(a)
         return true
     end
-    throw(IndeterminateException())
+    throw(IndeterminateException(a))
 end
 
 for (numberf, setf) in ((:<, :strictprecedes), (:<=, :precedes))
@@ -27,7 +27,7 @@ for (numberf, setf) in ((:<, :strictprecedes), (:<=, :precedes))
         elseif $setf(b, a)
             return false
         end
-        throw(IndeterminateException())
+        throw(IndeterminateException((a, b)))
     end
 end
 
@@ -40,16 +40,18 @@ function iszero(a::NumberInterval)
     if a ⊆ zero(typeof(a))
         return true
     end
-    throw(IndeterminateException())
+    throw(IndeterminateException(a))
 end
 
 function ==(a::NumberInterval, b::NumberInterval)
-    if isdisjoint(a, b)
+    if isnan(a) || isnan(b)
+        return false
+    elseif isdisjoint(a, b)
         return false
     elseif issingleton(a) && issingleton(b) && a ⊆ b
         return true
     end
-    throw(IndeterminateException())
+    throw(IndeterminateException((a, b)))
 end
 
 function sign(a::NumberInterval)
@@ -61,7 +63,7 @@ function sign(a::NumberInterval)
     elseif a ⊆ z
         return  0
     end
-    throw(IndeterminateException())
+    throw(IndeterminateException(a))
 end
 
 function signbit(a::NumberInterval)
@@ -71,5 +73,5 @@ function signbit(a::NumberInterval)
     elseif precedes(z, a)
         return false
     end
-    throw(IndeterminateException())
+    throw(IndeterminateException(a))
 end

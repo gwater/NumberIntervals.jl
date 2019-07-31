@@ -1,8 +1,8 @@
 
-import Base: promote_rule, convert, real
+import Base: promote_rule, convert, real, show
 import IntervalArithmetic: Interval
 
-export convert, real
+export convert, real, show
 export NumberInterval, IndeterminateException
 
 """
@@ -65,3 +65,8 @@ _promote_interval_type(a::Type) = a
 # promote everything like Interval, except promote Interval to NumberInterval
 promote_rule(::Type{NumberInterval{T}}, b::Type) where T =
     _promote_interval_type(promote_rule(Interval{T}, b))
+
+function show(io::IO, i::NumberInterval)
+    print(io, "x ∈ ")
+    show(io, Interval(i))
+end
