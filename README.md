@@ -1,7 +1,8 @@
-
 # NumberIntervals.jl
 
 A package for strict intervals-as-numbers.
+
+[![Build Status](https://travis-ci.org/gwater/NumberIntervals.jl.svg?branch=master)](https://travis-ci.org/gwater/NumberIntervals.jl)
 
 # Description
 
