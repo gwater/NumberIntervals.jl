@@ -6,12 +6,15 @@ export convert, real
 export NumberInterval, IndeterminateException
 
 """
-    IndeterminateException()
+    IndeterminateException(msg = "")
 
 Exception raised when the result of a numerical operation on a `NumberInterval`
 is indeterminate.
 """
-struct IndeterminateException <: Exception end
+struct IndeterminateException <: Exception
+    msg
+end
+IndeterminateException() = IndeterminateException("")
 
 function _is_valid_interval(lo, hi)
     if isinf(lo) && lo == hi
