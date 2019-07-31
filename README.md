@@ -20,9 +20,9 @@ julia> iszero(Interval(-1, 1))
 false
 
 julia> iszero(NumberInterval(-1, 1))
-ERROR: IndeterminateException()
+ERROR: IndeterminateException(x ∈ [-1, 1])
 Stacktrace:
- [1] iszero(::NumberInterval{Int64}) at /home/jgraw/Projekte/julia-packages/NumberIntervals/src/NumberIntervals.jl:59
+ [1] iszero(::NumberInterval{Float64}) at .../NumberIntervals/src/nonstandard.jl:43
  [2] top-level scope at none:0
 ```
 
