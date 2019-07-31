@@ -16,3 +16,6 @@ matrix:
 
 notifications:
       email: false
+
+after_success:
+    - julia -e 'cd(Pkg.dir("NumberIntervals")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
