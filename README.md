@@ -48,4 +48,4 @@ function my_hypot(x, y)
 end
 ```
 
-Check our [example](examples/DifferentialEquationsExample.ipynb) demonstrating how `NumberInterval`s can act as drop-in replacements for numbers without sacrificing numerical validatity.
+Check our [example](examples/DifferentialEquationsExample.ipynb) demonstrating how `NumberInterval`s can act as drop-in replacements for numbers without sacrificing numerical validity.
