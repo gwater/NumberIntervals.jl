@@ -56,9 +56,9 @@ end
 
 function sign(a::NumberInterval)
     z = zero(typeof(a))
-    if strictprecedes(a, z)
+    if a ≺ z
         return -1
-    elseif strictprecedes(z, a)
+    elseif z ≺ a
         return +1
     elseif a ⊆ z
         return  0
@@ -68,7 +68,7 @@ end
 
 function signbit(a::NumberInterval)
     z = zero(typeof(a))
-    if strictprecedes(a, z)
+    if a ≺ z
         return true
     elseif precedes(z, a)
         return false
