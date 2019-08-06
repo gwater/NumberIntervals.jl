@@ -3,18 +3,37 @@ import Base: promote_rule, convert, real, show
 import IntervalArithmetic: Interval
 
 export convert, real, show
-export NumberInterval, IndeterminateException
+export NumberInterval, IndeterminateException, Indeterminate
 
 """
     IndeterminateException(msg = "")
 
 Exception raised when the result of a numerical operation on a `NumberInterval`
 is indeterminate.
+
+To prevent an exception from being thrown, and instead cause a return value
+`Indeterminante()`, extend the `intercept_exception()` function from this module
+by defining:
+```julia
+    NumberIntervals.intercept_exception(::IndeterminateException) = true
+```
+Note that this changes behavior *globally*, across all packages processing
+`NumberInterval`s.
 """
 struct IndeterminateException <: Exception
     msg
 end
 IndeterminateException() = IndeterminateException("")
+
+intercept_exception(::Any) = false
+
+struct Indeterminate
+    function Indeterminate(msg)
+        exc = IndeterminateException(msg)
+        intercept_exception(exc) && return new()
+        throw(exc)
+    end
+end
 
 function _is_valid_interval(lo, hi)
     if isinf(lo) && lo == hi
