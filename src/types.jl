@@ -1,9 +1,9 @@
 
-import Base: promote_rule, convert, real, show
+import Base: promote_rule, convert, real, show, ==
 import IntervalArithmetic: Interval
 
-export convert, real, show
-export NumberInterval, IndeterminateException, Indeterminate
+export convert, real, show, ==
+export NumberInterval, Indeterminate
 
 """
     IndeterminateException(msg = "")
@@ -11,29 +11,39 @@ export NumberInterval, IndeterminateException, Indeterminate
 Exception raised when the result of a numerical operation on a `NumberInterval`
 is indeterminate.
 
-To prevent an exception from being thrown, and instead cause a return value
-`Indeterminante()`, extend the `intercept_exception()` function from this module
-by defining:
-```julia
-    NumberIntervals.intercept_exception(::IndeterminateException) = true
-```
-Note that this changes behavior *globally*, across all packages processing
-`NumberInterval`s.
+See documentation of `Indeterminate` for information on enabling this behavior.
 """
 struct IndeterminateException <: Exception
     msg
 end
 IndeterminateException() = IndeterminateException("")
 
-intercept_exception(::Any) = false
+intercept_exception(::Any) = true
 
+"""
+    Indeterminate()
+
+Value returned when the result of a numerical operation on a `NumberInterval`
+is indeterminate.
+
+To throw an `IndeterminateException()` instead (*only* for debugging purposes),
+extend the `intercept_exception()` function from this module by defining:
+```julia
+    NumberIntervals.intercept_exception(::IndeterminateException) = false
+```
+Note that this changes behavior *globally*, across all packages processing
+`NumberInterval`s and therefore should never be used in production code.
+"""
 struct Indeterminate
-    function Indeterminate(msg)
+    function Indeterminate(msg = nothing)
         exc = IndeterminateException(msg)
         intercept_exception(exc) && return new()
         throw(exc)
     end
 end
+
+==(a::Indeterminate, b) = Indeterminate(b)
+==(a, b::Indeterminate) = ==(b, a)
 
 function _is_valid_interval(lo, hi)
     if isinf(lo) && lo == hi

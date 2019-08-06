@@ -1,6 +1,9 @@
 
 using Test
 using NumberIntervals
+import NumberIntervals: IndeterminateException
+
+NumberIntervals.intercept_exception(::IndeterminateException) = false
 
 const a = NumberInterval(-1, 0)
 const b = NumberInterval(-0.5, 0.5)
