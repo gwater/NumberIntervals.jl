@@ -3,7 +3,8 @@ import Base: promote_rule, convert, real, show, ==
 import IntervalArithmetic: Interval
 
 export convert, real, show, ==
-export NumberInterval, Indeterminate, is_indeterminate_exception
+export NumberInterval, Indeterminate, IndeterminateException,
+    is_indeterminate_exception
 
 """
     IndeterminateException(msg = "")
