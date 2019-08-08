@@ -65,10 +65,19 @@ end
     @test test_is_indeterminate_exception()
     @test !is_indeterminate_exception(UndefVarError(:bla))
 end
-@testset "Indeterminate" begin
+@testset "Indeterminate (three-value logic)" begin
     @test (Indeterminate() == true) isa Indeterminate
+    @test (Indeterminate() == Indeterminate()) isa Indeterminate
     @test (false == Indeterminate()) isa Indeterminate
     @test !Indeterminate() isa Indeterminate
+    @test (Indeterminate() | Indeterminate()) isa Indeterminate
+    @test true | Indeterminate()
+    @test (false | Indeterminate()) isa Indeterminate
+    @test (Indeterminate() & Indeterminate()) isa Indeterminate
+    @test (true & Indeterminate()) isa Indeterminate
+    @test !(false & Indeterminate())
+    @test xor(Indeterminate(), Indeterminate()) isa Indeterminate
+    @test xor(true, Indeterminate()) isa Indeterminate
 end
 @testset "IndeterminateException" begin
     @test_throws IndeterminateException throw(IndeterminateException())
