@@ -93,3 +93,7 @@ end
     @test_throws ErrorException NumberInterval(Inf)
     @test_throws ErrorException NumberInterval(-Inf)
 end
+@testset "promotion" begin
+    @test promote_rule(NumberInterval{Float32}, Float64) ==
+        NumberInterval{Float64}
+end
