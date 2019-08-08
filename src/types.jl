@@ -63,7 +63,7 @@ function _is_valid_interval(lo, hi)
         return false # intervals cannot represent infinities
     elseif hi >= lo
         return true
-    elseif hi == -∞ && lo == ∞
+    elseif hi == -Inf && lo == Inf
         return true # allow empty interval
     elseif isnan(hi) && isnan(lo)
         return true # allow NaN interval

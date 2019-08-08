@@ -79,4 +79,8 @@ end
     @test NumberInterval{Float64}(a) === a
     @test NumberInterval{Float32}(4) isa NumberInterval{Float32}
     @test real(a) === a
+    @test_throws ErrorException NumberInterval(2., 1.)
+    @test isnan(NumberInterval(NaN))
+    @test_throws ErrorException NumberInterval(Inf)
+    @test_throws ErrorException NumberInterval(-Inf)
 end
