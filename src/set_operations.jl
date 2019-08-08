@@ -1,9 +1,9 @@
 
-import IntervalArithmetic: ∩, entireinterval
+import IntervalArithmetic: ∩, ∪, entireinterval
 
-export ∩, entireinterval
+export ∩, ∪, entireinterval
 
-for f in (:∩, )
+for f in (:∩, :∪)
     @eval $f(a::NumberInterval, b::NumberInterval) =
         NumberInterval($f(Interval(a), Interval(b)))
 end
