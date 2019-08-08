@@ -68,4 +68,15 @@ end
 @testset "Indeterminate" begin
     @test (Indeterminate() == true) isa Indeterminate
     @test (false == Indeterminate()) isa Indeterminate
+    @test !Indeterminate() isa Indeterminate
+end
+@testset "IndeterminateException" begin
+    @test_throws IndeterminateException throw(IndeterminateException())
+    @test is_indeterminate_exception(IndeterminateException(a))
+end
+@testset "constructor" begin
+    @test NumberInterval(a) === a
+    @test NumberInterval{Float64}(a) === a
+    @test NumberInterval{Float32}(4) isa NumberInterval{Float32}
+    @test real(a) === a
 end

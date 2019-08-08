@@ -95,6 +95,7 @@ NumberInterval(a::Interval) = NumberInterval(a.lo, a.hi)
 Interval(a::NumberInterval) = Interval(a.lo, a.hi)
 
 NumberInterval(a) = NumberInterval(Interval(a))
+NumberInterval(a::NumberInterval) = a
 NumberInterval{T}(a) where T = NumberInterval(Interval{T}(a))
 NumberInterval{S}(a::T) where {S, T <: Union{Integer, Rational, Irrational}} =
     NumberInterval(Interval{S}(a))
