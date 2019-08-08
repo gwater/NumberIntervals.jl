@@ -1,8 +1,8 @@
 
-import Base: promote_rule, convert, real, show, ==
+import Base: promote_rule, convert, real, show, ==, !
 import IntervalArithmetic: Interval
 
-export convert, real, show, ==
+export convert, real, show, ==, !
 export NumberInterval, Indeterminate, IndeterminateException,
     is_indeterminate_exception
 
@@ -45,6 +45,7 @@ end
 
 ==(a::Indeterminate, b) = Indeterminate(b)
 ==(a, b::Indeterminate) = ==(b, a)
+!(i::Indeterminate) = i
 
 """
     is_indeterminate_exception(exc::Exception)
