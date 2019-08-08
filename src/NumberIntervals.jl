@@ -2,6 +2,8 @@ module NumberIntervals
 
 using IntervalArithmetic
 
+# three-value logic
+include("indeterminate.jl")
 # basic type definitions, conversion rules, etc
 include("types.jl")
 
