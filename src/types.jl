@@ -3,7 +3,7 @@ import Base: promote_rule, convert, real, show, ==
 import IntervalArithmetic: Interval
 
 export convert, real, show, ==
-export NumberInterval, Indeterminate
+export NumberInterval, Indeterminate, is_indeterminate_exception
 
 """
     IndeterminateException(msg = "")
@@ -44,6 +44,17 @@ end
 
 ==(a::Indeterminate, b) = Indeterminate(b)
 ==(a, b::Indeterminate) = ==(b, a)
+
+"""
+    is_indeterminate_exception(exc::Exception)
+
+Returns boolean indicating whether an exception was caused by an indeterminate
+logical operation on intervals. Specifically supports `IndeterminateException`
+and `TypeError` (due to *non-Boolean used in Boolean context*).
+"""
+is_indeterminate_exception(::Exception) = false
+is_indeterminate_exception(::IndeterminateException) = true
+is_indeterminate_exception(exc::TypeError) = isa(exc.got, Indeterminate)
 
 function _is_valid_interval(lo, hi)
     if isinf(lo) && lo == hi
