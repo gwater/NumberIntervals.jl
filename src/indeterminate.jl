@@ -1,7 +1,7 @@
 
-import Base: ==, !
+import Base: ==, !, |, &, xor
 
-export Indeterminate, ==, !
+export Indeterminate, ==, !, |, &, xor
 export IndeterminateException, is_indeterminate_exception
 
 """
@@ -41,16 +41,28 @@ struct Indeterminate
     end
 end
 
-==(a::Indeterminate, b) = Indeterminate(b)
-==(a, b::Indeterminate) = ==(b, a)
+==(i::Indeterminate, ::Union{Bool, Indeterminate}) = i
+==(::Bool, i::Indeterminate) = i
+
 !(i::Indeterminate) = i
+
+|(i::Indeterminate, ::Indeterminate) = i
+|(i::Indeterminate, a::Bool) = ifelse(a, true, i)
+|(a::Bool, i::Indeterminate) = i | a
+
+(&)(i::Indeterminate, ::Indeterminate) = i
+(&)(i::Indeterminate, a::Bool) = ifelse(a, i, false)
+(&)(a::Bool, i::Indeterminate) = i & a
+
+xor(i::Indeterminate, ::Union{Bool, Indeterminate}) = i
+xor(::Bool, i::Indeterminate) = i
 
 """
     is_indeterminate_exception(exc::Exception)
 
 Returns boolean indicating whether an exception was caused by an indeterminate
 logical operation on intervals. Specifically supports `IndeterminateException`
-and `TypeError` (due to *non-Boolean used in Boolean context*).
+and `TypeError` (due to *non-Bool used in Bool context*).
 """
 is_indeterminate_exception(::Exception) = false
 is_indeterminate_exception(::IndeterminateException) = true
