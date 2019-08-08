@@ -16,12 +16,10 @@ julia> using NumberIntervals, IntervalArithmetic
 julia> iszero(Interval(-1, 1))
 false
 julia> iszero(NumberInterval(-1, 1))
-ERROR: IndeterminateException(x ∈ [-1, 1])
-Stacktrace:
- [1] iszero(::NumberInterval{Float64}) at .../NumberIntervals/src/nonstandard.jl:43
- [2] top-level scope at none:0
+Indeterminate()
 ```
-In this case, we cannot tell if the interval (-1, 1) represents zero or not; so the `NumberInterval` raises an exception. The `IntervalArithmetic` is more forgiving which increases the risk of silent failure in algorithms expecting Number-like behavior.
+In this case, we cannot tell if the interval (-1, 1) represents zero or not; so the `NumberInterval` returns `Indeterminate()`.
+The `Interval` (from `IntervalArithmetic`) is more forgiving which increases the risk of silent failure in algorithms expecting `Number`-like behavior.
 
 In safe cases, `NumberInterval` yields the expected result:
 ```julia
@@ -38,9 +36,9 @@ This definition uses `Base.hypot()` in safe cases and falls back to `sqrt(x^2 + 
 ```julia
 function my_hypot(x, y)
     try
-        return hypot(x, y)
+        hypot(x, y)
     catch exc
-        if isa(exc, IndeterminateException)
+        if is_indeterminate_exception(exc)
             return sqrt(x^2 + y^2)
         end
         rethrow(exc)
@@ -49,3 +47,10 @@ end
 ```
 
 Check our [example](examples/DifferentialEquationsExample.ipynb) demonstrating how `NumberInterval`s can act as drop-in replacements for numbers without sacrificing numerical validity.
+
+## Debugging
+
+For debugging purposes, enable exceptions in indeterminate cases, using:
+```julia
+    NumberIntervals.intercept_exception(::IndeterminateException) = false
+```
