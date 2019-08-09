@@ -12,37 +12,37 @@ const e = NumberInterval(Inf, -Inf)
 @testset "number comparison" begin
     @test a < c
     @test c > a
-    @test (a < b) isa Indeterminate
-    @test (c > b) isa Indeterminate
+    @test (a < b) |> ismissing
+    @test (c > b) |> ismissing
     @test !(c < a)
     @test !(a > c)
     @test z == z
     @test z != c
-    @test (a == b) isa Indeterminate
-    @test (b != c) isa Indeterminate
+    @test (a == b) |> ismissing
+    @test (b != c) |> ismissing
     @test b <= c
 end
 @testset "testing for zero" begin
     @test !iszero(c)
     @test iszero(z)
-    @test iszero(a) isa Indeterminate
-    @test iszero(b) isa Indeterminate
+    @test iszero(a) |> ismissing
+    @test iszero(b) |> ismissing
 end
 @testset "test sign" begin
     @test signbit(c) == false
     @test signbit(-a) == false
     @test signbit(-c) == true
-    @test signbit(a) isa Indeterminate
+    @test signbit(a) |> ismissing
     @test sign(c) == 1
     @test sign(z) == 0
     @test sign(-c) == -1
-    @test sign(b) isa Indeterminate
+    @test sign(b) |> ismissing
 end
 @testset "isinteger" begin
     @test isinteger(z)
     @test isinteger(NumberInterval(4))
     @test !isinteger(NumberInterval(4.5))
-    @test isinteger(c) isa Indeterminate
+    @test isinteger(c) |> ismissing
     @test !isinteger(d)
 end
 @testset "isfinite" begin
@@ -51,37 +51,10 @@ end
     @test isfinite(c)
     @test isfinite(z)
     @test isfinite(NumberInterval(0., Inf))
-    @test isfinite(e) isa Indeterminate
-end
-@testset "is_indeterminate_exception" begin
-    function test_is_indeterminate_exception()
-        try
-            iszero(b) && true
-        catch exc
-            return is_indeterminate_exception(exc)
-        end
-        return false # fallback, in case not exception is raised
-    end
-    @test test_is_indeterminate_exception()
-    @test !is_indeterminate_exception(UndefVarError(:bla))
-end
-@testset "Indeterminate (three-value logic)" begin
-    @test (Indeterminate() == true) isa Indeterminate
-    @test (Indeterminate() == Indeterminate()) isa Indeterminate
-    @test (false == Indeterminate()) isa Indeterminate
-    @test !Indeterminate() isa Indeterminate
-    @test (Indeterminate() | Indeterminate()) isa Indeterminate
-    @test true | Indeterminate()
-    @test (false | Indeterminate()) isa Indeterminate
-    @test (Indeterminate() & Indeterminate()) isa Indeterminate
-    @test (true & Indeterminate()) isa Indeterminate
-    @test !(false & Indeterminate())
-    @test xor(Indeterminate(), Indeterminate()) isa Indeterminate
-    @test xor(true, Indeterminate()) isa Indeterminate
+    @test isfinite(e) |> ismissing
 end
 @testset "IndeterminateException" begin
     @test_throws IndeterminateException throw(IndeterminateException())
-    @test is_indeterminate_exception(IndeterminateException(a))
 end
 @testset "constructor" begin
     @test NumberInterval(a) === a
