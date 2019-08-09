@@ -16,9 +16,9 @@ julia> using NumberIntervals, IntervalArithmetic
 julia> iszero(Interval(-1, 1))
 false
 julia> iszero(NumberInterval(-1, 1))
-Indeterminate()
+missing
 ```
-In this case, we cannot tell if the interval (-1, 1) represents zero or not; so the `NumberInterval` returns `Indeterminate()`.
+In this case, we cannot tell if the interval (-1, 1) represents zero or not; so the `NumberInterval` returns `missing`.
 The `Interval` (from `IntervalArithmetic`) is more forgiving which increases the risk of silent failure in algorithms expecting `Number`-like behavior.
 
 In safe cases, `NumberInterval` yields the expected result:
@@ -34,11 +34,14 @@ This behavior is similar to the [default Boost implementation](https://www.boost
 Through `try-catch` statements fallback algorithms can be defined when certain methods fail. A good example is `Base.hypot(x, y)`. It calculates `sqrt(x^2 + y^2)` avoiding over/underflows. Unfortunately, it is not always safe to use with intervals.
 This definition uses `Base.hypot()` in safe cases and falls back to `sqrt(x^2 + y^2)` in unsafe cases:
 ```julia
+is_missing_exception(::Exception) = false
+is_missing_exception(exc::TypeError) = ismissing(exc.got)
+
 function my_hypot(x, y)
     try
         hypot(x, y)
     catch exc
-        if is_indeterminate_exception(exc)
+        if is_missing_exception(exc)
             return sqrt(x^2 + y^2)
         end
         rethrow(exc)
