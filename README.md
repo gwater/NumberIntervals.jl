@@ -5,6 +5,14 @@ A package for strict intervals-as-numbers.
 [![Build Status](https://travis-ci.org/gwater/NumberIntervals.jl.svg?branch=master)](https://travis-ci.org/gwater/NumberIntervals.jl)
 [![codecov](https://codecov.io/gh/gwater/NumberIntervals.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/gwater/NumberIntervals.jl)
 
+# Installation
+
+*NumberIntervals.jl* is available from the General registry. To install enter
+the `Pkg` REPL (using `]` in Julia REPL) and simply enter:
+```julia
+add NumberIntervals
+```
+
 # Description
 
 This package aims to provide intervals which can be safely used as drop-in replacements for numbers in [Julia](https://julialang.org).
