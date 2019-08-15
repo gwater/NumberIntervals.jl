@@ -17,7 +17,8 @@ codecov: true
 
 matrix:
       allow_failures:
-          - julia: nightly, 1.2
+          - julia: nightly
+          - julia: 1.2
           - os: windows
 
 notifications:
