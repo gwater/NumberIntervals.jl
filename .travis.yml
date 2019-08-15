@@ -10,13 +10,14 @@ os:
 julia:
       - 1.0
       - 1.1
+      - 1.2
       - nightly
 
 codecov: true
 
 matrix:
       allow_failures:
-          - julia: nightly
+          - julia: nightly, 1.2
           - os: windows
 
 notifications:
