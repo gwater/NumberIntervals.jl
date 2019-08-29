@@ -59,6 +59,21 @@ end
 
 Check our [example](examples/DifferentialEquationsExample.ipynb) demonstrating how `NumberInterval`s can act as drop-in replacements for numbers without sacrificing numerical validity.
 
+## Unsupported functions
+
+Some functions do not support NumberIntervals, usually because they call external C or FORTRAN libraries.
+For these functions, [ApproxFun.jl](https://github.com/JuliaApproximation/ApproxFun.jl) produces a pure Julia approximation which can be used with NumberIntervals.
+```julia
+julia> using ApproxFun, NumberIntervals, SpecialFunctions
+julia> besselj0(NumberInterval(1))
+ERROR: StackOverflowError
+julia> f = Fun(besselj0, Chebyshev(0..10))
+julia> f(NumberInterval(1))
+x ∈ [0.765197, 0.765198]
+julia> besselj0(1)
+0.7651976865579666
+```
+
 ## Debugging
 
 For debugging purposes, enable exceptions in indeterminate cases, using:
