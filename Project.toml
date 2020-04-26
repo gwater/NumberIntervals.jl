@@ -1,4 +1,4 @@
-game = "NumberIntervals"
+name = "NumberIntervals"
 uuid = "978898f6-561e-11e9-3f66-13949d9e5c8a"
 authors = ["Josua Grawitter <josua.grawitter@campus.tu-berlin.de>"]
 version = "0.1.1"
