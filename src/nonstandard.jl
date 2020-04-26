@@ -20,15 +20,24 @@ function isfinite(a::NumberInterval)
     return missing_or_exception(a)
 end
 
-for (numberf, setf) in ((:<, :strictprecedes), (:<=, :precedes))
-    @eval function $numberf(a::NumberInterval, b::NumberInterval)
-        if $setf(a, b)
-            return true
-        elseif $setf(b, a)
-            return false
-        end
-        return missing_or_exception((a, b))
+function <=(a::NumberInterval, b::NumberInterval)
+    if precedes(a, b)
+        return true
+    elseif precedes(b, a)
+        return false
     end
+    return missing_or_exception((a, b))
+end
+
+function <(a::NumberInterval, b::NumberInterval)
+    if strictprecedes(a, b)
+        return true
+    elseif strictprecedes(b, a)
+        return false
+    elseif issingleton(a) && issingleton(b) && a ⊆ b
+        return false
+    end
+    return missing_or_exception((a, b))
 end
 
 >=(a::NumberInterval, b::NumberInterval) = b <= a

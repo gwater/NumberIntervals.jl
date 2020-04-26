@@ -8,6 +8,7 @@ const c = NumberInterval(0.5, 2)
 const d = NumberInterval(0.25, 0.8)
 const z = zero(NumberInterval)
 const e = NumberInterval(Inf, -Inf)
+const f = NumberInterval(1)
 
 @testset "number comparison" begin
     @test a < c
@@ -21,6 +22,7 @@ const e = NumberInterval(Inf, -Inf)
     @test (a == b) |> ismissing
     @test (b != c) |> ismissing
     @test b <= c
+    @test !(f < f)
 end
 @testset "testing for zero" begin
     @test !iszero(c)
