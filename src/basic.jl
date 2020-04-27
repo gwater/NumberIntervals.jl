@@ -9,7 +9,7 @@ export -, +, *, /, ^, abs, abs2, sqrt, exp, exp2, expm1, exp10, log, log2,
 for f in (:-, :abs, :abs2, :sqrt, :exp, :exp2, :expm1, :exp10, :log, :log2,
           :log1p, :log10, :sin, :sinpi, :cos, :cospi, :tan, :asin, :acos, :atan,
           :sinh, :cosh, :asinh, :acosh, :tanh, :atanh, :inv, :floor, :ceil,
-          :round, :trunc, :eps)
+          :round, :trunc)
     @eval $f(a::NumberInterval) = NumberInterval($f(Interval(a)))
 end
 
@@ -25,4 +25,9 @@ end
 
 round(a::NumberInterval, mode) = NumberInterval(round(Interval(a), mode))
 
-eps(::Type{NumberInterval{T}}) where T = NumberInterval(eps(Interval{T}))
+
+eps(::Type{NumberInterval{T}}) where T = eps(T)
+function eps(a::NumberInterval)
+    _a = abs(a)
+    return NumberInterval(eps(_a.lo), eps(_a.hi))
+end
