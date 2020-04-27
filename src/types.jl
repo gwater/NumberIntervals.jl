@@ -1,9 +1,9 @@
 
 import Base: promote_rule, convert, real, show
-import IntervalArithmetic: Interval
+import IntervalArithmetic: Interval, interval, ±
 
 export convert, real, show
-export NumberInterval
+export NumberInterval, interval, ±
 
 function _is_valid_interval(lo, hi)
     if isinf(lo) && lo == hi
@@ -40,6 +40,7 @@ NumberInterval(a::Interval) = NumberInterval(a.lo, a.hi)
 (::Type{NumberInterval{T}})(a::NumberInterval{T}) where T = a
 
 Interval(a::NumberInterval) = Interval(a.lo, a.hi)
+interval(a::NumberInterval) = a
 
 NumberInterval(a) = NumberInterval(Interval(a))
 NumberInterval(a::NumberInterval) = a
@@ -59,4 +60,15 @@ promote_rule(::Type{NumberInterval{T}}, b::Type) where T =
 function show(io::IO, i::NumberInterval)
     print(io, "x ∈ ")
     show(io, Interval(i))
+end
+
+function ±(a::NumberInterval, r)
+    if r < 0
+        return ±(a, -r)
+    end
+    NumberInterval(a.lo - r, a.hi + r)
+end
+
+function ±(a::NumberInterval, b::NumberInterval)
+    return NumberInterval(±(Interval(a), Interval(b)))
 end
