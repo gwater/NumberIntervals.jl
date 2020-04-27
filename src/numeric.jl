@@ -5,3 +5,6 @@ export radius, mid, mag, mig, sup, inf
 for f in (:radius, :mid, :mag, :mig, :sup, :inf)
     @eval $f(a::NumberInterval) = $f(Interval(a))
 end
+
+mid(a::NumberInterval, α) = mid(Interval(a), α)
+
