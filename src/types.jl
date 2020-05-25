@@ -1,8 +1,8 @@
 
-import Base: promote_rule, convert, real, show
-import IntervalArithmetic: Interval, interval, ±
+import Base: promote_rule, convert, real, show, empty
+import IntervalArithmetic: Interval, interval, ±, emptyinterval
 
-export convert, real, show
+export convert, real, show, empty
 export NumberInterval, interval, ±
 
 function _is_valid_interval(lo, hi)
@@ -72,3 +72,5 @@ end
 function ±(a::NumberInterval, b::NumberInterval)
     return NumberInterval(±(Interval(a), Interval(b)))
 end
+
+empty(a::NumberInterval) = NumberInterval(emptyinterval(Interval(a)))
